@@ -21,7 +21,7 @@ class Products extends StatelessWidget {
                 onPressed: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (BuildContext context) => ProductPage())),
+                        builder: (BuildContext context) => ProductPage("Sweets apps","assets/food.jpg"))),
               )
             ],
           )
