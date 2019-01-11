@@ -24,9 +24,10 @@ ProductsAdminPage(this.addProduct,this.deleteProduct);
                 title: Text('Choose'),
               ),
               ListTile(
+                leading: Icon(Icons.shop_two),
                 title: Text('All Products'),
                 onTap: () {
-                  Navigator.pushReplacementNamed(context, "/");
+                  Navigator.pushReplacementNamed(context, "/products");
                 },
               )
             ],

@@ -34,7 +34,7 @@ class _ProductCreatePageState extends State<ProductCreatePage> {
             decoration: InputDecoration(labelText: "Description"),
             onChanged: (String value) {
               setState(() {
-                _titleValue = value;
+                _descriptionValue = value;
               });
             },
           ),
