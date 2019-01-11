@@ -3,25 +3,62 @@ import 'package:flutter/material.dart';
 import './pages/auth.dart';
 import './pages/product_admin.dart';
 import './pages/products.dart';
+import './pages/product.dart';
+
 main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  
+class MyApp extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+}
+
+class _MyAppState extends State<MyApp> {
+  List<Map<String, dynamic>> _products = [];
+
+  void _addProduct(Map<String, dynamic> product) {
+    setState(() {
+      _products.add(product);
+    });
+  }
+
+  void _deleteProduct(int index) {
+    setState(() {
+      _products.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return MaterialApp(
       theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
-        brightness: Brightness.dark,
-        accentColor: Colors.deepPurple
-      ),
-      //home: AuthPage(),
+          primarySwatch: Colors.deepOrange,
+          brightness: Brightness.light,
+          accentColor: Colors.blueAccent),
       routes: {
-        "/" : (BuildContext context) => ProductsPage(),
-        "/admin" : (BuildContext context) => ProductsAdminPage()
+        '/': (BuildContext context) => AuthPage(),
+        "/products": (BuildContext context) => ProductsPage(_products),
+        "/admin": (BuildContext context) => ProductsAdminPage(_addProduct,_deleteProduct)
+      },
+      onGenerateRoute: (RouteSettings settings) {
+        final List<String> pathElement = settings.name.split("/");
+
+        if (pathElement[0] != '') {
+          return null;
+        }
+        if (pathElement[1] == "product") {
+          final int index = int.parse(pathElement[2]);
+          return MaterialPageRoute<bool>(
+              builder: (BuildContext context) => ProductPage(
+                  _products[index]["title"], _products[index]["image"]));
+        }
+        return null;
+      },
+      onUnknownRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder:(BuildContext context) => ProductsPage(_products));
       },
     );
   }

@@ -3,6 +3,11 @@ import 'package:flutter/material.dart';
 import '../product_manager.dart';
 
 class ProductsPage extends StatelessWidget {
+  final List<Map<String,dynamic>> products;
+
+  
+  ProductsPage(this.products);
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -26,6 +31,6 @@ class ProductsPage extends StatelessWidget {
         appBar: AppBar(
           title: Text("Lema Travel"),
         ),
-        body: ProductManager());
+        body: ProductManager(products));
   }
 }
