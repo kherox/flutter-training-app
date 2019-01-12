@@ -5,9 +5,16 @@ import './pages/product_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
 
+import './models/product.dart';
+
+
+
+
 main() {
   runApp(MyApp());
 }
+
+
 
 class MyApp extends StatefulWidget {
   @override
@@ -17,19 +24,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  List<Map<String, dynamic>> _products = [];
-
-  void _addProduct(Map<String, dynamic> product) {
-    setState(() {
-      _products.add(product);
-    });
-  }
-
-  void _deleteProduct(int index) {
-    setState(() {
-      _products.removeAt(index);
-    });
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -40,9 +35,9 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.blueAccent),
       routes: {
         '/': (BuildContext context) => AuthPage(),
-        "/products": (BuildContext context) => ProductsPage(_products),
+        "/products": (BuildContext context) => ProductsPage(),
         "/admin": (BuildContext context) =>
-            ProductsAdminPage(_addProduct, _deleteProduct,_products)
+            ProductsAdminPage()
       },
       onGenerateRoute: (RouteSettings settings) {
         final List<String> pathElement = settings.name.split("/");
@@ -53,17 +48,13 @@ class _MyAppState extends State<MyApp> {
         if (pathElement[1] == "product") {
           final int index = int.parse(pathElement[2]);
           return MaterialPageRoute<bool>(
-              builder: (BuildContext context) => ProductPage(
-                  _products[index]["title"],
-                  _products[index]["image"],
-                  _products[index]["description"],
-                  _products[index]["price"]));
+              builder: (BuildContext context) => ProductPage(null,null,null,null));
         }
         return null;
       },
       onUnknownRoute: (RouteSettings settings) {
         return MaterialPageRoute(
-            builder: (BuildContext context) => ProductsPage(_products));
+            builder: (BuildContext context) => ProductsPage());
       },
     );
   }
