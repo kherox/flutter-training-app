@@ -4,15 +4,16 @@ import 'package:flutter/material.dart';
 
 import '../widgets/ui_elements/title_default.dart';
 
+import 'package:scoped_model/scoped_model.dart';
+import '../scoped-model/products.dart';
+import '../models/product.dart';
+
 class ProductPage extends StatelessWidget {
-  final String title;
-  final String image;
-  final String description;
-  final double price;
+  final int index;
 
-  ProductPage(this.title, this.image, this.description, this.price);
+  ProductPage(this.index);
 
-  Widget _buildAddressPriceRow() {
+  Widget _buildAddressPriceRow(double price) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -42,22 +43,24 @@ class ProductPage extends StatelessWidget {
           Navigator.pop(context, false);
           return Future.value(false);
         },
-        child: Scaffold(
+        child: ScopedModelDescendant<ProductsModel>(builder: (BuildContext context , Widget child , ProductsModel model) {
+          Product product = model.products[index];
+           return Scaffold(
             appBar: AppBar(
-              title: Text(title),
+              title: Text(product.title),
             ),
             body: Column(
               children: <Widget>[
-                Image.asset(image),
+                Image.asset(product.image),
                 Container(
-                  child: TitleDefault(title),
+                  child: TitleDefault(product.title),
                   padding: EdgeInsets.all(10.0),
                 ),
-                _buildAddressPriceRow(),
+                _buildAddressPriceRow(product.price),
                 Container(
                   padding: EdgeInsets.all(10.0),
                   child: Text(
-                    description,
+                    product.description,
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -91,6 +94,7 @@ class ProductPage extends StatelessWidget {
                   ),
                 )
               ],
-            )));
+            ),);
+        },) );
   }
 }

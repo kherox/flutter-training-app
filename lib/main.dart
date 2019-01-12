@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 import './pages/auth.dart';
 import './pages/product_admin.dart';
 import './pages/products.dart';
 import './pages/product.dart';
+import './scoped-model/products.dart';
 
 import './models/product.dart';
 
@@ -28,7 +30,9 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ScopedModel<ProductsModel>(
+      model: ProductsModel(),
+       child: MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.deepOrange,
           brightness: Brightness.light,
@@ -48,7 +52,7 @@ class _MyAppState extends State<MyApp> {
         if (pathElement[1] == "product") {
           final int index = int.parse(pathElement[2]);
           return MaterialPageRoute<bool>(
-              builder: (BuildContext context) => ProductPage(null,null,null,null));
+              builder: (BuildContext context) => ProductPage(index));
         }
         return null;
       },
@@ -56,6 +60,6 @@ class _MyAppState extends State<MyApp> {
         return MaterialPageRoute(
             builder: (BuildContext context) => ProductsPage());
       },
-    );
+    ),) ;
   }
 }
